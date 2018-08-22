@@ -1,0 +1,46 @@
+﻿@page
+@using AdminPanelWebApp.Models @*namespace*@
+@model QuestionModel
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<div class="container">
+    <br>
+    <h3>Dodaj pytanie</h3>  
+    <br>
+    <form method="post">
+
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Question.Subject"> </label>
+                <select asp-for="Question.Subject" asp-items="@Html.GetEnumSelectList<Subject>()" class="form-control"></select>                
+                <span asp-validation-for="Question.Subject" span class="alert-danger" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Question.Difficulty"> </label>
+                @*@Html.EditorFor(x=>x.Question.Difficulty)*@
+                <input type="number" asp-for="Question.Difficulty" class="form-control" />
+                <span asp-validation-for="Question.Difficulty" span class="alert-danger" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Question.QuestionContent"> </label>
+                <input asp-for="Question.QuestionContent" class="form-control" />
+                <span asp-validation-for="Question.QuestionContent" span class="alert-danger" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Question.ResponseContent"></label>
+                <input asp-for="Question.ResponseContent" class="form-control" />
+                <span asp-validation-for="Question.ResponseContent" span class="alert-danger" />
+            </div>
+        </div>
+        <input type="submit" value="zapisz" />
+    </form>
+</div>
+
