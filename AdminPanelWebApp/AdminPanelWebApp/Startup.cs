@@ -24,6 +24,7 @@ namespace AdminPanelWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(o=>o.UseInMemoryDatabase());
+           // services.AddDbContext<DatabaseContext>(o => o.);
             services.AddMvc();
         }
 
