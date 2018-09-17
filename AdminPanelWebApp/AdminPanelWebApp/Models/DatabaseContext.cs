@@ -10,8 +10,10 @@ namespace AdminPanelWebApp.Models
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-
+            
         }
+        
+
         public DbSet<Question> Questions { get; set; }        
     }
 }
