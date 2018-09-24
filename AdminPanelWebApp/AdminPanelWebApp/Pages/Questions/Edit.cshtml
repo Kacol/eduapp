@@ -1,0 +1,58 @@
+﻿@page
+@using AdminPanelWebApp.Models
+@model AdminPanelWebApp.Pages.Questions.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Question</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Question.ID" />
+            <div class="form-group">
+                <label asp-for="Question.Subject" class="control-label"></label>
+                <select asp-for="Question.Subject" asp-items="@Html.GetEnumSelectList<Subject>()" class="form-control"></select>
+                <span asp-validation-for="Question.Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question.Difficulty" class="control-label"></label>
+                <input asp-for="Question.Difficulty" class="form-control" />
+                <span asp-validation-for="Question.Difficulty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question.QuestionContent" class="control-label"></label>
+                <input asp-for="Question.QuestionContent" class="form-control" />
+                <span asp-validation-for="Question.QuestionContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question.ResponseContent" class="control-label"></label>
+                <input asp-for="Question.ResponseContent" class="form-control" />
+                <span asp-validation-for="Question.ResponseContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Question.IsEnabled" /> @Html.DisplayNameFor(model => model.Question.IsEnabled)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

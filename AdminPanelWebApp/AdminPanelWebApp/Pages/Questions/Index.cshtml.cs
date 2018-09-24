@@ -9,6 +9,8 @@ using AdminPanelWebApp.Models;
 
 namespace AdminPanelWebApp.Pages.Questions
 {
+
+
     public class IndexModel : PageModel
     {
         private readonly AdminPanelWebApp.Models.DatabaseContext _context;

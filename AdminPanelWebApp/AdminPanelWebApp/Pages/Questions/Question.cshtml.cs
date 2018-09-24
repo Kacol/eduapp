@@ -20,16 +20,17 @@ namespace AdminPanelWebApp.Pages.Questions
             //Question = new Question();
         }
 
-        public void OnPost() //dodawanie do DB
+        public ActionResult OnPost() //dodawanie do DB
         { 
             if(!ModelState.IsValid)
             {
-                return; // w przypadku dodania smieci w formularzu
+                return Page(); // w przypadku dodania smieci w formularzu
             }
             _databaseContext.Questions.Add(Question); // dodajemy rekordy w pamiêci RAM
 
             _databaseContext.SaveChanges(); // zapisujemy zamiany w DB
 
+            return RedirectToPage("Index");
         }
     }
 }

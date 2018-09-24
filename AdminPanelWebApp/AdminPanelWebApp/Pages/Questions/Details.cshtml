@@ -1,0 +1,49 @@
+﻿@page
+@model AdminPanelWebApp.Pages.Questions.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Question</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Question.Subject)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Question.Subject)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Question.Difficulty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Question.Difficulty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Question.QuestionContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Question.QuestionContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Question.ResponseContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Question.ResponseContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Question.IsEnabled)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Question.IsEnabled)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Question.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
