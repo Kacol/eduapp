@@ -45,7 +45,7 @@ namespace AdminPanelWebApp
                 app.UseExceptionHandler("/Error");
             }
 
-          
+            
             app.UseStaticFiles();
             app.UseMvc();
         }

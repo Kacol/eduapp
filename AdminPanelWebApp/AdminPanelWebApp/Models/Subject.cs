@@ -7,7 +7,7 @@ namespace AdminPanelWebApp.Models
 {
     public enum Subject
     {
-        Matematyka = 0,                   
+        Matematyka = 0,                           
         Angielski = 1
     }
 }

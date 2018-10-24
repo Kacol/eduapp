@@ -1,0 +1,20 @@
+﻿@page
+@model AdminPanelWebApp.Pages.Settings.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Timeout)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Timeout)
+        </dd>
+    </dl>
+</div>
