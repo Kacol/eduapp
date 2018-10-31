@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,9 @@ namespace AdminPanelWebApp.Pages.Settings
         private readonly IConfiguration _configuration;
 
         [BindProperty] 
+        [Required]
+        [Display(Name = "Czas w sekundach")]
+        [Range(300,7200, ErrorMessage = "Nieprawidlowa wartosc")]
         public int Timeout { get; set; }
 
         public IndexModel(IConfiguration configuration)
@@ -23,6 +27,15 @@ namespace AdminPanelWebApp.Pages.Settings
         public void OnGet()
         {
             Timeout = _configuration.GetValue<int>("AdminPanelSettings:Timeout");
+        }
+
+        public ActionResult OnPost()
+        {
+            if (!ModelState.IsValid)
+                return Page();
+
+            _configuration["AdminPanelSettings:Timeout"]  = Timeout.ToString();
+            return RedirectToPage("Index");
         }
     }
 }
