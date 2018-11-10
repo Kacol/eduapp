@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AdminPanelWebApp.Models;
+using Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -29,12 +30,19 @@ namespace AdminPanelWebApp.Api
         {
             return _configuration.GetValue<int>("AdminPanelSettings:Timeout");
         }
+        [HttpGet]
+        public int GetWrongAnswerTimeoutSetting()
+        {
+            return _configuration.GetValue<int>("AdminPanelSettings:WrongAnswerTimeout");
+        }
 
         [HttpGet]
-        public string GetNextQuestion()
+        public GetNextQuestionResult GetNextQuestion()
         {            
-            List<string> questions = _context.Questions.Where(question => question.IsEnabled)
-                .Select(question => question.QuestionContent).ToList();
+            var questions = _context.Questions
+                .Where(question => question.IsEnabled)
+                .Select(question => new {question.QuestionContent,question.ID})
+                .ToList();
             //wybieramy select aby wyciagnąć interesujące nas kolumny
             //var "uniwesalny" typ context to baza danych where wybierax=>-takie jak where w sql;
                        
@@ -44,7 +52,8 @@ namespace AdminPanelWebApp.Api
             
             Random random = new Random();
             int index = random.Next(questions.Count);
-            return questions[index];         
+            var pair = questions[index];
+            return new GetNextQuestionResult(pair.QuestionContent, pair.ID);         
         }
 
         [HttpGet]

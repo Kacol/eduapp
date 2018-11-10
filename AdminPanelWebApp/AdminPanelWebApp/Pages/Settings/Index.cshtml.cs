@@ -19,6 +19,13 @@ namespace AdminPanelWebApp.Pages.Settings
         [Range(300,7200, ErrorMessage = "Nieprawidlowa wartosc")]
         public int Timeout { get; set; }
 
+        [BindProperty]
+        [Required]
+        [Display(Name = "Czas kary w sekundach")]
+        [Range(60, 3600, ErrorMessage = "Nieprawidlowa wartosc")]
+        public int WrongAnswerTimout { get; set; }
+        //TODO: walidacja
+
         public IndexModel(IConfiguration configuration)
         {
             _configuration = configuration;            
@@ -27,6 +34,7 @@ namespace AdminPanelWebApp.Pages.Settings
         public void OnGet()
         {
             Timeout = _configuration.GetValue<int>("AdminPanelSettings:Timeout");
+            WrongAnswerTimout = _configuration.GetValue<int>("AdminPanelSettings:WrongAnswerTimout");
         }
 
         public ActionResult OnPost()
@@ -35,6 +43,8 @@ namespace AdminPanelWebApp.Pages.Settings
                 return Page();
 
             _configuration["AdminPanelSettings:Timeout"]  = Timeout.ToString();
+            _configuration["AdminPanelSettings:WrongAnswerTimout"] = WrongAnswerTimout.ToString();
+
             return RedirectToPage("Index");
         }
     }

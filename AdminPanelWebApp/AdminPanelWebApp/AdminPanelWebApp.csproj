@@ -22,4 +22,7 @@
   <ItemGroup>
     <Folder Include="Pages\Test\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
 </Project>
