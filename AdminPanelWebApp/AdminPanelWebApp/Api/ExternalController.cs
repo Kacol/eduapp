@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdminPanelWebApp.Models;
 using Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 namespace AdminPanelWebApp.Api
 {
     [Route("api/[controller]/[action]")]
-    [ApiController]
+    [ApiController]   
     public class ExternalController : ControllerBase
     {
         private readonly DatabaseContext _context;
@@ -26,6 +27,7 @@ namespace AdminPanelWebApp.Api
         }
         // aby wystawic daną metode bedziemy podawac api/[controller]/[action] gdzie controler to external a action to nazwa metody
         [HttpGet]
+        [AllowAnonymous]
         public int GetTimeoutSetting()
         {
             return _configuration.GetValue<int>("AdminPanelSettings:Timeout");
@@ -58,7 +60,7 @@ namespace AdminPanelWebApp.Api
 
         [HttpGet]
         [Route("{userAnswer}/{questionId}")]
-        public bool CompareAnswer(string userAnswer,int questionId)
+        public bool IsAnswerCorrect(string userAnswer,int questionId)
         {
             String odp = _context.Questions.Where(question => question.ID == questionId)
                 .Select(question => question.ResponseContent).Single();
