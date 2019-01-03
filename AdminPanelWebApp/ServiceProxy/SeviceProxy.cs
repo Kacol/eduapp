@@ -86,7 +86,7 @@ namespace ServiceProxy
             var response = await client.GetAsync(prefix + "IsAnswerCorrect/" + userAnswer +"/" + questionId);
             if (!response.IsSuccessStatusCode)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(response.ToString());
             }
 
             var result = await response.Content.ReadAsAsync<bool>();

@@ -14,32 +14,137 @@ namespace QuestionsGui
 {
     public partial class MainForm : Form
     {
+        private int showWindowTimeout;
+        private int wrongAnswerTimeout;
+        private Timer showWindowTimer;
+        private int currentQuestionId;
+
+        private async Task RefreshTimeouts()
+        {
+            showWindowTimeout = await ServiceProxy.ServiceProxy.Instance.GetTimeoutSetting();
+            wrongAnswerTimeout = await ServiceProxy.ServiceProxy.Instance.GetWrongAnswerTimeoutSetting();
+        }
+
         public MainForm()
         {
             InitializeComponent();
-            string address = $"{ConfigurationManager.AppSettings["ServerAddress"]}:{ConfigurationManager.AppSettings["ServerPort"]}";
-            ServiceProxy.ServiceProxy.Instance.Init(address);
+            Init();
         }
 
-        private int id;
+        private void Init()
+        {
+            string address = $"{ConfigurationManager.AppSettings["ServerAddress"]}:{ConfigurationManager.AppSettings["ServerPort"]}";
+            ServiceProxy.ServiceProxy.Instance.Init(address);
+
+            showWindowTimer = new Timer();
+            showWindowTimer.Tick+=ShowWindowTimerOnTick;
+ 
+        }
+
+        private async void ShowWindowTimerOnTick(object sender, EventArgs e)
+        {
+            await RefreshTimeouts();
+            showWindowTimer.Stop();
+            await RefreshQuestion();
+
+            panelQuestion.Show();
+            panelTimer.Hide();
+            Show();
+          //  WindowState = FormWindowState.Normal; //stan okna po minięciu czasu            
+        }
+
+        private async Task RefreshQuestion()
+        {
+            var result = await ServiceProxy.ServiceProxy.Instance.GetNextQuestion();
+            currentQuestionId = result.Id;
+            labelQuestionContent.Text = result.QuestionContent;
+        }
+
+        private async void buttonSubmit_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxAnswer.Text))
+                return;
+
+            bool result = await ServiceProxy.ServiceProxy.Instance.IsAnswerCorrect(textBoxAnswer.Text, currentQuestionId);
+            if (result)
+            {
+                MessageBox.Show("Prawidlowa");
+                this.Hide();
+                showWindowTimer.Start();
+            }
+            else
+            {
+                panelQuestion.Hide();
+                panelTimer.Show();
+                //var someTask = Task.Factory.StartNew(async () =>
+                //{
+                //    await Task.Delay(wrongAnswerTimeout);
+                //    WindowState = FormWindowState.Minimized;
+                //    showWindowTimer.Start();
+                //});
+                //await someTask;                
+                Func<Task> task = async () =>//typ reprezenujący zadanie które będzie w przyszłości wykonane (f-cja jako zmienna)
+                {
+                    Timer timerStopWatch = new Timer() {Enabled = true, Interval = 1000};
+                    int currentSeconds = wrongAnswerTimeout;
+                    RefreshStopWatchLabel(currentSeconds);
+                    timerStopWatch.Tick +=
+                        (o, args) =>
+                        {
+                            currentSeconds--;
+                            RefreshStopWatchLabel(currentSeconds);
+                        };
+                    await Task.Delay(wrongAnswerTimeout * 1000); //f-cja przejdzie dalej po odczekaniu zdewiniowanego czasu (wrongAnswerTimeout)
+                    timerStopWatch.Dispose();
+                    this.Hide();
+                    showWindowTimer.Start();
+                };
+                await task();
+            }
+        }
+
+        private void RefreshStopWatchLabel(int currentSeconds)
+        {
+            labelTime.Text = currentSeconds.ToString();
+        }
+
+        private async Task tst()
+        {
+            await Task.Delay(wrongAnswerTimeout);
+            WindowState = FormWindowState.Minimized;
+            showWindowTimer.Start();
+        }
+
+        private async void MainForm_Load(object sender, EventArgs e)
+        {
+            await RefreshTimeouts();
+
+            showWindowTimer.Interval = showWindowTimeout * 1000;
+            showWindowTimer.Enabled = true;
+
+            Hide();
+        }
+
+      
         private async void button1_Click(object sender, EventArgs e)
         {
+            
 
-            var result = await ServiceProxy.ServiceProxy.Instance.GetNextQuestion();   
-            id = result.Id;            
-            textBox1.Text = result.QuestionContent;
+            //var result = await ServiceProxy.ServiceProxy.Instance.GetNextQuestion();   
+            //id = result.Id;            
+            //textBox1.Text = result.QuestionContent;
             //MessageBox.Show(result.ToString());
         }
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            var result = await ServiceProxy.ServiceProxy.Instance.IsAnswerCorrect(textBox2.Text, id);
-            if (result == true)
-                MessageBox.Show("Prawidlowa");
-            else
-            {
-                MessageBox.Show("Nieprawidlowa");
-            }
+            //var result = await ServiceProxy.ServiceProxy.Instance.IsAnswerCorrect(textBoxAnswer.Text, id);
+            //if (result == true)
+            //    MessageBox.Show("Prawidlowa");
+            //else
+            //{
+            //    MessageBox.Show("Nieprawidlowa");
+            //}
             //var result = await ServiceProxy.ServiceProxy.Instance.GetNextQuestion();
 
         }
@@ -53,10 +158,8 @@ namespace QuestionsGui
         {
             Application.Exit();
         }
+     
 
-        private void MainForm_Deactivate(object sender, EventArgs e)
-        {
-
-        }
+      
     }
 }
