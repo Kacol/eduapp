@@ -38,7 +38,7 @@ namespace AdminPanelWebApp.Pages.Questions
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync() //edycja rekordu
         {
             if (!ModelState.IsValid)
             {

@@ -24,7 +24,7 @@ namespace AdminPanelWebApp.Pages.Questions
 
         public async Task OnGetAsync()
         {
-            Question = await _context.Questions.ToListAsync();
+            Question = await _context.Questions.ToListAsync();//zapytanie do serwera sql (SELECT * FROM....)
         }
     }
 }

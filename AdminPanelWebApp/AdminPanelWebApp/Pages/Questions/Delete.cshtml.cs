@@ -21,7 +21,7 @@ namespace AdminPanelWebApp.Pages.Questions
         [BindProperty]
         public Question Question { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id) //pobianie rekordu do usunięcia
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace AdminPanelWebApp.Pages.Questions
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? id) // usuwanie
         {
             if (id == null)
             {

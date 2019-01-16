@@ -41,19 +41,19 @@ namespace QuestionsGui
  
         }
 
-        private async void ShowWindowTimerOnTick(object sender, EventArgs e)
+        private async void ShowWindowTimerOnTick(object sender, EventArgs e)//f-cja wywoluje sie co zdefiniowany czas w aplikacji
         {
-            await RefreshTimeouts();
-            showWindowTimer.Stop();
-            await RefreshQuestion();
+            await RefreshTimeouts();//refresz danych w settings (zmiana interwału przez admina)
+            showWindowTimer.Stop();//stopujemy czas i czekamy na reakcje użytkownika
+            await RefreshQuestion();//pobiera z serwera pytanie
 
-            panelQuestion.Show();
-            panelTimer.Hide();
-            Show();
+            panelQuestion.Show();//pokazujemy panel z pytaniem
+            panelTimer.Hide();//chowamy panel z timerem
+            Show();//pokazuje pytanie
           //  WindowState = FormWindowState.Normal; //stan okna po minięciu czasu            
         }
 
-        private async Task RefreshQuestion()
+        private async Task RefreshQuestion()//pobieranie treści pytania
         {
             var result = await ServiceProxy.ServiceProxy.Instance.GetNextQuestion();
             currentQuestionId = result.Id;
@@ -119,7 +119,7 @@ namespace QuestionsGui
         {
             await RefreshTimeouts();
 
-            showWindowTimer.Interval = showWindowTimeout * 1000;
+            showWindowTimer.Interval = showWindowTimeout * 1000;//
             showWindowTimer.Enabled = true;
 
             Hide();

@@ -17,7 +17,7 @@ namespace AdminPanelWebApp.Pages.Questions
 
         public void OnGet()
         {
-            //Question = new Question();
+            //Question = new Question();C:\Users\Michal\Source\Repos\eduapp\AdminPanelWebApp\AdminPanelWebApp\Pages\Questions\Delete.cshtml.cs
         }
 
         public ActionResult OnPost() //dodawanie do DB
@@ -28,7 +28,7 @@ namespace AdminPanelWebApp.Pages.Questions
             }
             _databaseContext.Questions.Add(Question); // dodajemy rekordy w pamiêci RAM
 
-            _databaseContext.SaveChanges(); // zapisujemy zamiany w DB
+            _databaseContext.SaveChanges(); // zapisujemy zamiany w DB wysy³a do serwera sql
 
             return RedirectToPage("Index");
         }

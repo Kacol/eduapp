@@ -27,7 +27,7 @@ namespace AdminPanelWebApp.Pages.Questions
                 return NotFound();
             }
 
-            Question = await _context.Questions.FirstOrDefaultAsync(m => m.ID == id);
+            Question = await _context.Questions.FirstOrDefaultAsync(m => m.ID == id); //select where id....
 
             if (Question == null)
             {

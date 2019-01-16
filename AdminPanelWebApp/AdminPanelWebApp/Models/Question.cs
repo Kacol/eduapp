@@ -28,7 +28,6 @@ namespace AdminPanelWebApp.Models
         [Display(Name = "Odpowiedź")]
         public string ResponseContent { get; set; }
         
-
         [Required(ErrorMessage = "Podaj czy aktywne")]
         [Display(Name = "Czy aktywne")]
         public bool IsEnabled { get; set; }

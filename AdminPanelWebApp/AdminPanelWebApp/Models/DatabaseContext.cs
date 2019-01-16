@@ -15,6 +15,6 @@ namespace AdminPanelWebApp.Models
         
 
         public DbSet<Question> Questions { get; set; }        // odzwierciedlenie bazy danych w c#        
-
+      
     }
 }
